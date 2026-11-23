@@ -4,6 +4,7 @@ pub mod cartpole;
 pub mod pcgrng;
 pub mod lgp_instruction;
 pub mod lgp_program;
+pub mod mutation;
 
 /// The [Score] is the value representing the performances of
 /// a [Program] on an episode (or various episodes).

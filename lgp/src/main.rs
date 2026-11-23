@@ -1,14 +1,14 @@
 //use std::vec;
+use std::cmp::Reverse;
 
-use env::{/*State, */cartpole::CartPole, Environment, pcgrng::PCGRng, lgp_instruction::REGISTERS_NUMBER, lgp_program::Program};
-
+use env::{/*State, */cartpole::CartPole, Environment, pcgrng::PCGRng, lgp_instruction::REGISTERS_NUMBER, lgp_program::Program, mutation};
 fn main() {
     const NB_PROGRAMS: usize = 100;
     let seed = 0;
     let progseed = 0;
     let mut rng = PCGRng::seed(seed);
     let mut rng_programs = PCGRng::seed(progseed);
-    let mut total_reward:[f32; NB_PROGRAMS as usize] = [0.0; NB_PROGRAMS as usize];
+    let mut total_reward:[i32; NB_PROGRAMS as usize] = [0; NB_PROGRAMS as usize];
     let mut reg : [[f32; REGISTERS_NUMBER as usize]; NB_PROGRAMS as usize] = [[0.0; REGISTERS_NUMBER as usize]; NB_PROGRAMS as usize];  //registers R0: result, R1, R2, R3  // R4, R5 input registers I0, I1, I2, I3
     
 
@@ -43,23 +43,26 @@ fn main() {
             reg[iter][4] = state[2];
             reg[iter][5] = state[3];
 
-            total_reward[iter] += reward;
+            total_reward[iter] += reward as i32;
 
             if done {
+                programs[iter].set_reward(total_reward[iter]);
                 break;
             }
         }
-        println!("Programme {}: Total reward: {}", iter, total_reward[iter]);
-
-        for _i in 10..NB_PROGRAMS {
-            programs[_i] = Program::new_u64(&mut rng_programs);
-        }
+        println!("Programme {}: Total reward: {} \tProgram: {}", iter, programs[iter].get_reward(),programs[iter].get_64b());
     }
 
-    total_reward.sort_by(|a, b| b.total_cmp(a));
+    programs.sort_by_key(|p| Reverse(p.get_reward()));
 
-    println!("Total reward: {}", total_reward[0])
+    println!("Total reward: {}", programs[0].get_reward());
 
+    for _i in 10..NB_PROGRAMS {
+        programs[_i] = Program::new_u64(&mut rng_programs);
+    }
+    println!("{:064b}", mutation::gen_mask(&mut rng, 8));
+
+    
  /*    let inst: Instruction = Instruction::new(0, 1, 7, 7);
 
     let encoded = inst.encode();

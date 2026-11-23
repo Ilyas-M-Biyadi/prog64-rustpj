@@ -8,7 +8,7 @@ use crate::{pcgrng::PCGRng};
 pub const OPCODE_SIZE: u64 = 2; // 2 bits
 pub const RESULT_SIZE: u64 = 1; // 1 bit
 pub const OPERAND_SIZE: u64 = 3; // 3 bits
-pub const INSTRUCTION_SIZE: u64 = OPCODE_SIZE + RESULT_SIZE + 2*OPERAND_SIZE ; // 10 bits
+pub const INSTRUCTION_SIZE: u64 = OPCODE_SIZE + RESULT_SIZE + 2*OPERAND_SIZE ; // 9 bits
 
 pub const OPERATIONS_NUMBER: u64 = 4; // 4 operations: add, sub, mul, div
 pub const REGISTERS_NUMBER: u64 = 6; // 6 registers: R0, R1, R2, R3, R4, R5

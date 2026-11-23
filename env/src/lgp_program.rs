@@ -5,6 +5,7 @@ use crate::{lgp_instruction::{INSTRUCTION_SIZE, Instruction, NB_INSTRUCTIONS, RE
 pub struct Program {
     program_64b: u64,
     instructions: Vec<Instruction>,
+    total_reward: i32,
 }
 
 impl Program {
@@ -12,6 +13,8 @@ impl Program {
         Program { 
             program_64b: 0 as u64,
             instructions,
+            total_reward: 0 as i32,
+
         }
     }
 
@@ -23,6 +26,8 @@ impl Program {
         Program { 
             program_64b: 0 as u64,
             instructions,
+            total_reward: 0 as i32,
+
         }
     }
 
@@ -30,7 +35,20 @@ impl Program {
         Program {
             program_64b: rng.next_u64() as u64,
             instructions: Vec::with_capacity(NB_INSTRUCTIONS as usize),
+            total_reward: 0 as i32,
+
         }
+    }
+
+    pub fn get_64b(&self) -> u64{
+        self.program_64b
+    }
+    pub fn get_reward(&self) -> i32{
+        self.total_reward
+    }
+
+     pub fn set_reward(&mut self, v: i32) {
+        self.total_reward=v;
     }
 
     pub fn encode(&mut self) -> &mut Self {
@@ -64,4 +82,6 @@ impl Program {
             instruction.display();
         }
     }
+
 }
+
