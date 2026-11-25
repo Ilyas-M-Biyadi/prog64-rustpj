@@ -1,7 +1,9 @@
 use rand::Rng;
 
-use crate::{lgp_instruction::{INSTRUCTION_SIZE, Instruction, NB_INSTRUCTIONS, REGISTERS_NUMBER}, pcgrng::PCGRng};
+use crate::{lgp_instruction::{INSTRUCTION_SIZE, Instruction, NB_INSTRUCTIONS, REGISTERS_NUMBER, NB_MUTATED_BITS}, pcgrng::PCGRng, mutation};
 
+
+#[derive(Clone)]
 pub struct Program {
     program_64b: u64,
     instructions: Vec<Instruction>,
@@ -82,6 +84,12 @@ impl Program {
             instruction.display();
         }
     }
+    pub fn mutate(&mut self,rng: &mut PCGRng) -> &mut Self {
+        self.program_64b^=mutation::gen_mask(rng);
+
+        self
+    }
+
 
 }
 

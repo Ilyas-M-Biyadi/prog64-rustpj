@@ -68,7 +68,7 @@ impl Environment for CartPole {
 
         let done_x = self.x < -self.threshold_x || self.x > self.threshold_x;
         let done_theta = self.theta < -self.threshold_theta || self.theta > self.threshold_theta;
-        let done = done_x || done_theta || self.episode_length >= 10000;
+        let done = done_x || done_theta || self.episode_length >= 10000000;
 
         ([self.x, self.x_dot, self.theta, self.theta_dot], 1., done)
     }

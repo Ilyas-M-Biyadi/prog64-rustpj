@@ -20,12 +20,16 @@ pub const OPERAND_MASK: u64 = (1 << OPERAND_SIZE) - 1;  // 3 bits
 
 pub const NB_INSTRUCTIONS: u64 = 64 / INSTRUCTION_SIZE; // 6 instructions per program
 
+pub const NB_MUTATED_BITS: i8 = 8; //Nomrbe de bits à 1 dans le masque qui sera utilisé pour muter les programmes.
+
 enum _Opcode {
     Add = 0,
     Sub = 1,
     Mul = 2,
     Div = 3,
 }
+
+#[derive(Clone)]
 pub struct Instruction {
     opcode: u8,    //2bits
     result: u8,    //1bit
